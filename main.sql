@@ -19,11 +19,15 @@ BEGIN
     EXEC [dbo].[cs_GetStartEndTimes] @Frequency, @StartDate OUTPUT, @EndDate OUTPUT;
     
     -- debug 
-    /* 
-    SELECT 'Main Start Date: ' + CONVERT(NVARCHAR(50), @StartDate, 121) AS [Main Start Date],
-             'Main End Date: ' + CONVERT(NVARCHAR(50), @EndDate, 121) AS [Main End Date];
-    */
+    /* SELECT 'Main Start Date: ' + CONVERT(NVARCHAR(50), @StartDate, 121) AS [Main Start Date],
+             'Main End Date: ' + CONVERT(NVARCHAR(50), @EndDate, 121) AS [Main End Date]; */
+   
 
+    -- debug
+    SET @StartDate = '20231101 10:12:26.000'
+    SET @EndDate = '20231201 10:12:26.000'
+
+    SELECT @StartDate, @EndDate
     
     -- Call Production Calculation
     -------------------------------------------------------------------------
@@ -79,8 +83,7 @@ BEGIN
     -- debug
     DECLARE @debug_StartDate DATETIME;
     DECLARE @debug_EndDate DATETIME; 
-    SET @debug_StartDate = '20240101 10:12:26.000'
-    SET @debug_EndDate = '20240401 10:12:26.000'
+    
     
     SET @TagName_List = 
     '
@@ -91,8 +94,8 @@ BEGIN
     ';
 
     EXEC [dbo].[cs_energy] 
-    @debug_StartDate, 
-    @debug_EndDate,
+    @StartDate, 
+    @EndDate,
     @TagName_List,
     @main_energy_json OUTPUT;
 
