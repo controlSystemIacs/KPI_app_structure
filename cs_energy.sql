@@ -23,15 +23,13 @@ BEGIN
     SET @Sql = '
         INSERT INTO #EnergyResults (TagName, Energy, EndDate)
         SELECT 
-            AnalogSummaryHistory.TagName, 
+            TagName, 
             Last - First AS Energy,
             @EndDate AS EndDate
         FROM 
-            Tag
-        INNER JOIN 
-            AnalogSummaryHistory ON Tag.wwTagKey = AnalogSummaryHistory.wwTagKey
+            AnalogSummaryHistory
         WHERE 
-            AnalogSummaryHistory.TagName IN (' + @TagNames + ')
+            TagName IN (' + @TagNames + ')
             AND wwVersion = ''Latest''
             AND wwRetrievalMode = ''Cyclic''
             AND wwCycleCount = 1
@@ -66,5 +64,3 @@ END
 
 GO
 
-
---My first commit
