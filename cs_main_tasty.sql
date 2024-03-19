@@ -69,6 +69,48 @@ EXEC [dbo].[cs_production_kg_tasty]
 select @main_production_json
 
 
+DECLARE @ElecEnergy_tagnamelist NVARCHAR(MAX)
+DECLARE @main_electrical_energies_json NVARCHAR(MAX)
+
+SET @ElecEnergy_tagnamelist = ' "Mixer100_Level_PV","Mixer200_Level_PV","Mixer300_Level_PV","Mixer400_Level_PV" '
+
+EXEC [dbo].[cs_electrical_energy_tasty]
+@StartDate,
+@EndDate,
+@ElecEnergy_tagnamelist,
+@main_electrical_energies_json OUTPUT
+
+SELECT @main_electrical_energies_json
+
+
+DECLARE @NGEnergy_tagnamelist NVARCHAR(MAX)
+DECLARE @main_naturalgas_energies_json NVARCHAR(MAX)
+
+SET @NGEnergy_tagnamelist = ' "Mixer100_Temperature_PV","Mixer200_Temperature_PV","Mixer300_Temperature_PV","Mixer400_Temperature_PV" '
+
+EXEC [dbo].[cs_naturalgas_energy_tasty]
+@StartDate,
+@EndDate,
+@NGEnergy_tagnamelist,
+@main_naturalgas_energies_json OUTPUT
+
+SELECT @main_naturalgas_energies_json
+
+
+DECLARE @Water_tagnamelist NVARCHAR(MAX)
+DECLARE @main_water_json NVARCHAR(MAX)
+
+SET @Water_tagnamelist = ' "Mixer100_Temperature_PV","Mixer200_Temperature_PV","Mixer300_Temperature_PV","Mixer400_Temperature_PV" '
+
+EXEC [dbo].[cs_water_tasty]
+@StartDate,
+@EndDate,
+@Water_tagnamelist,
+@main_water_json OUTPUT
+
+SELECT @main_water_json
+
+
 /*
 DECLARE @Elec_tagnamelist NVARCHAR(MAX)
 DECLARE @main_intensities_json NVARCHAR(MAX)
@@ -89,6 +131,6 @@ SELECT @main_intensities_json
 
  END
  GO
- --exec [dbo].[cs_main_tasty] @Frequency = 'hourly'
+ --exec [dbo].[cs_main_tasty] @Frequency = 'running'
  
  
