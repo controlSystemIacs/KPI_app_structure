@@ -111,48 +111,48 @@ BEGIN
     SELECT @main_water_json
 
 
-DECLARE @electrical_intensity_tagname NVARCHAR(50)
-DECLARE @main_electrical_intensity_json NVARCHAR(MAX)
+    DECLARE @electrical_intensity_tagname NVARCHAR(50)
+    DECLARE @main_electrical_intensity_json NVARCHAR(MAX)
 
-SET @electrical_intensity_tagname = 'line_electrical_intensity'
+    SET @electrical_intensity_tagname = 'line_electrical_intensity'
 
-EXEC [dbo].[cs_electrical_intensity_tasty]
-@EndDate,
-@electrical_intensity_tagname,
-@main_production_json,
-@main_electrical_energies_json,
-@main_electrical_intensity_json OUTPUT
+    EXEC [dbo].[cs_electrical_intensity_tasty]
+    @EndDate,
+    @electrical_intensity_tagname,
+    @main_production_json,
+    @main_electrical_energies_json,
+    @main_electrical_intensity_json OUTPUT
 
-SELECT @main_electrical_intensity_json
-
-
-DECLARE @naturalgas_intensity_tagname NVARCHAR(50)
-DECLARE @main_naturalgas_intensity_json NVARCHAR(MAX)
-
-SET @naturalgas_intensity_tagname = 'line_ng_intensity'
-
-EXEC [dbo].[cs_naturalgas_intensity_tasty]
-@naturalgas_intensity_tagname,
-@main_production_json,
-@main_naturalgas_energies_json,
-@main_naturalgas_intensity_json OUTPUT
-
-SELECT @main_naturalgas_intensity_json
+    SELECT @main_electrical_intensity_json
 
 
-DECLARE @water_intensity_tagname NVARCHAR(50)
-DECLARE @main_water_intensity_json NVARCHAR(MAX)
+    DECLARE @naturalgas_intensity_tagname NVARCHAR(50)
+    DECLARE @main_naturalgas_intensity_json NVARCHAR(MAX)
 
-SET @water_intensity_tagname = 'line_water_intensity'
+    SET @naturalgas_intensity_tagname = 'line_ng_intensity'
 
-EXEC [dbo].[cs_water_intensity_tasty]
-@EndDate,
-@water_intensity_tagname,
-@main_production_json,
-@main_water_json,
-@main_water_intensity_json OUTPUT
+    EXEC [dbo].[cs_naturalgas_intensity_tasty]
+    @naturalgas_intensity_tagname,
+    @main_production_json,
+    @main_naturalgas_energies_json,
+    @main_naturalgas_intensity_json OUTPUT
 
-SELECT @main_water_intensity_json
+    SELECT @main_naturalgas_intensity_json
+
+
+    DECLARE @water_intensity_tagname NVARCHAR(50)
+    DECLARE @main_water_intensity_json NVARCHAR(MAX)
+
+    SET @water_intensity_tagname = 'line_water_intensity'
+
+    EXEC [dbo].[cs_water_intensity_tasty]
+    @EndDate,
+    @water_intensity_tagname,
+    @main_production_json,
+    @main_water_json,
+    @main_water_intensity_json OUTPUT
+
+    SELECT @main_water_intensity_json
 
 
 /*
