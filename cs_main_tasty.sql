@@ -275,6 +275,30 @@ BEGIN
     SELECT @main_water_intensity_line2_json
 
 
+    -- Call Insertion Function for Tdelta Rates and for every line Intensities
+    ------------------------------------------------------------------------------
+    ------------------------------------------------------------------------------
+
+    --Insert Tdelta Rates
+    EXEC [dbo].[cs_insert_TdeltaRates_to_Analog_History_tasty] 
+    @Frequency,
+    @main_Tdelta_per_hour_json
+
+    /*--Insert Potato Line 1 Intensities
+    EXEC [dbo].[cs_insert_TdeltaRates_to_Analog_History_tasty] 
+    @Frequency,
+    @main_electrical_intensity_line1_json,
+    @main_naturalgas_intensity_line1_json,
+    @main_water_intensity_line1_json
+
+    --Insert Potato Line 2 Intensities
+    EXEC [dbo].[cs_insert_TdeltaRates_to_Analog_History_tasty] 
+    @Frequency,
+    @main_electrical_intensity_line2_json,
+    @main_naturalgas_intensity_line2_json,
+    @main_water_intensity_line2_json
+*/
+
 
  END
  GO
