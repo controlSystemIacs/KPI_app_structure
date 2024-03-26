@@ -34,7 +34,7 @@ BEGIN
     DECLARE @Tdelta_tagnamelist NVARCHAR(MAX)
     DECLARE @main_Tdelta_per_hour_json NVARCHAR(MAX)
 
-    SET @Tdelta_tagnamelist = ' "Mixer100_Temperature_PV","Mixer200_Temperature_PV","Mixer300_Temperature_PV","Mixer400_Temperature_PV" '
+    SET @Tdelta_tagnamelist = ' "PC1.Fry.Oil.Tdelta.PV","PC2.Fry.Oil.Tdelta.PV" '
  
     EXEC [dbo].[cs_Tdelta_per_hour] 
     @StartDate, 
@@ -50,18 +50,22 @@ BEGIN
     -------------------------------------------------------------------------
 
     DECLARE @Line NVARCHAR(100)
+    DECLARE @MinuteDifference INT
     DECLARE @ProdRate_tagnamelist NVARCHAR(50)
     DECLARE @Production_value FLOAT
     DECLARE @main_production_line1_json NVARCHAR(MAX)
     DECLARE @main_production_line2_json NVARCHAR(MAX)
 
+    SET @MinuteDifference = DATEDIFF(MINUTE, @StartDate, @EndDate)
+
     --Potato Line 1
     SET @Line = 'Potato_Line_1'
-    SET @ProdRate_tagnamelist = 'Mixer100_Level_PV'
+    SET @ProdRate_tagnamelist = 'PC1.Fry.Prod.Rate'
 
     EXEC [dbo].[cs_production_kg_tasty]
     @StartDate,
     @EndDate,
+    @MinuteDifference,
     @Line,
     @ProdRate_tagnamelist,
     @Production_value OUTPUT,
@@ -71,11 +75,12 @@ BEGIN
 
     --Potato Line 2
     SET @Line = 'Potato_Line_2'
-    SET @ProdRate_tagnamelist = 'Mixer200_Level_PV'
+    SET @ProdRate_tagnamelist = 'PC2.Fry.Prod.Rate'
 
     EXEC [dbo].[cs_production_kg_tasty]
     @StartDate,
     @EndDate,
+    @MinuteDifference,
     @Line,
     @ProdRate_tagnamelist,
     @Production_value OUTPUT,
@@ -83,7 +88,7 @@ BEGIN
 
     select @main_production_line2_json
 
-
+    /*
     -- Call Electrical Energy Calculation for every line
     -------------------------------------------------------------------------
     -------------------------------------------------------------------------
@@ -284,7 +289,7 @@ BEGIN
     @Frequency,
     @main_Tdelta_per_hour_json
 
-    /*--Insert Potato Line 1 Intensities
+    --Insert Potato Line 1 Intensities
     EXEC [dbo].[cs_insert_TdeltaRates_to_Analog_History_tasty] 
     @Frequency,
     @main_electrical_intensity_line1_json,
@@ -297,11 +302,12 @@ BEGIN
     @main_electrical_intensity_line2_json,
     @main_naturalgas_intensity_line2_json,
     @main_water_intensity_line2_json
-*/
+    
+    */
 
 
  END
  GO
- --exec [dbo].[cs_main_tasty] @Frequency = 'hourly'
+ --exec [dbo].[cs_main_tasty] @Frequency = 'running'
  
  

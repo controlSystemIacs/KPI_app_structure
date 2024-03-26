@@ -8,6 +8,7 @@ GO
 ALTER PROCEDURE [dbo].[cs_production_kg_tasty]
     @StartDate DATETIME,
     @EndDate DATETIME,
+    @MinuteDifference INT,
     @Line NVARCHAR(100),
     @ProdRate_tagnamelist NVARCHAR(50),
     @Production_value FLOAT OUTPUT,
@@ -18,7 +19,7 @@ BEGIN
 
 
 SET @Production_value=(
-SELECT CASE WHEN AnalogSummaryHistory.TagName = @ProdRate_tagnamelist THEN Integral ELSE 0 END
+SELECT CASE WHEN AnalogSummaryHistory.TagName = @ProdRate_tagnamelist THEN Average*@MinuteDifference ELSE 0 END
 FROM AnalogSummaryHistory
 WHERE AnalogSummaryHistory.TagName = @ProdRate_tagnamelist
     AND StartDateTime >= @StartDate
