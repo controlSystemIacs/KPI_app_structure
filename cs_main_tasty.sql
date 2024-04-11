@@ -88,7 +88,7 @@ BEGIN
 
     select @main_production_line2_json
 
-    /*
+    
     -- Call Electrical Energy Calculation for every line
     -------------------------------------------------------------------------
     -------------------------------------------------------------------------
@@ -97,8 +97,8 @@ BEGIN
     DECLARE @main_electrical_energies_line1_json NVARCHAR(MAX)
     DECLARE @main_electrical_energies_line2_json NVARCHAR(MAX)
 
-    --Line 1
-    SET @ElecEnergy_tagnamelist = ' "Mixer100_Level_PV","Mixer200_Level_PV" '
+    --Potato Line 1
+    SET @ElecEnergy_tagnamelist = ' "Potato1_TotalEnergy","Backend_TotalEnergy" '
 
     EXEC [dbo].[cs_electrical_energy_tasty]
     @StartDate,
@@ -108,8 +108,8 @@ BEGIN
 
     SELECT @main_electrical_energies_line1_json
 
-    --Line 2
-    SET @ElecEnergy_tagnamelist = ' "Mixer300_Level_PV","Mixer200_Level_PV" '
+    --Potato Line 2
+    SET @ElecEnergy_tagnamelist = ' "Potato2_TotalEnergy","Backend_TotalEnergy" '
 
     EXEC [dbo].[cs_electrical_energy_tasty]
     @StartDate,
@@ -120,7 +120,7 @@ BEGIN
     SELECT @main_electrical_energies_line2_json
 
 
-
+    /*
     -- Call Natural Gas Energy Calculation for every line
     -------------------------------------------------------------------------
     -------------------------------------------------------------------------
@@ -181,7 +181,7 @@ BEGIN
     @main_water_line2_json OUTPUT
 
     SELECT @main_water_line2_json
-
+    */
 
     -- Call Electrical Intensity Calculation for every line
     -------------------------------------------------------------------------
@@ -191,7 +191,7 @@ BEGIN
     DECLARE @main_electrical_intensity_line1_json NVARCHAR(MAX)
     DECLARE @main_electrical_intensity_line2_json NVARCHAR(MAX)
 
-    --Line 1
+    --Potato Line 1
     SET @electrical_intensity_tagname = 'Potato_Line_1_electrical_intensity'
 
     EXEC [dbo].[cs_electrical_intensity_tasty]
@@ -203,7 +203,7 @@ BEGIN
 
     SELECT @main_electrical_intensity_line1_json
 
-    --Line 2
+    --Potato Line 2
     SET @electrical_intensity_tagname = 'Potato_Line_2_electrical_intensity'
 
     EXEC [dbo].[cs_electrical_intensity_tasty]
@@ -215,7 +215,7 @@ BEGIN
 
     SELECT @main_electrical_intensity_line2_json
 
-
+    /*
     -- Call Natural Gas Intensity Calculation for every line
     -------------------------------------------------------------------------
     -------------------------------------------------------------------------
@@ -279,7 +279,7 @@ BEGIN
 
     SELECT @main_water_intensity_line2_json
 
-
+    */
     -- Call Insertion Function for Tdelta Rates and for every line Intensities
     ------------------------------------------------------------------------------
     ------------------------------------------------------------------------------
@@ -290,24 +290,23 @@ BEGIN
     @main_Tdelta_per_hour_json
 
     --Insert Potato Line 1 Intensities
-    EXEC [dbo].[cs_insert_TdeltaRates_to_Analog_History_tasty] 
+    EXEC [dbo].[cs_insert_Intensities_to_Analog_History_tasty] 
     @Frequency,
-    @main_electrical_intensity_line1_json,
-    @main_naturalgas_intensity_line1_json,
-    @main_water_intensity_line1_json
+    @main_electrical_intensity_line1_json
+    --@main_naturalgas_intensity_line1_json,
+    --@main_water_intensity_line1_json
 
     --Insert Potato Line 2 Intensities
-    EXEC [dbo].[cs_insert_TdeltaRates_to_Analog_History_tasty] 
+    EXEC [dbo].[cs_insert_Intensities_to_Analog_History_tasty] 
     @Frequency,
-    @main_electrical_intensity_line2_json,
-    @main_naturalgas_intensity_line2_json,
-    @main_water_intensity_line2_json
+    @main_electrical_intensity_line2_json
+    --@main_naturalgas_intensity_line2_json,
+    --@main_water_intensity_line2_json
     
-    */
+    
 
 
  END
  GO
- --exec [dbo].[cs_main_tasty] @Frequency = 'running'
- 
+ --exec [dbo].[cs_main_tasty] @Frequency = 'hourly'
  

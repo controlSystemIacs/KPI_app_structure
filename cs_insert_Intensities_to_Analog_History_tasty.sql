@@ -7,18 +7,18 @@ SET QUOTED_IDENTIFIER OFF
 GO
 ALTER PROCEDURE [dbo].[cs_insert_Intensities_to_Analog_History_tasty]
     @Frequency NVARCHAR(50),
-    @Electrical_Intensity_JSON NVARCHAR(MAX),
-    @Naturalgas_Intensity_JSON NVARCHAR(MAX),
-    @Water_Intensity_JSON NVARCHAR(MAX)
+    @Electrical_Intensity_JSON NVARCHAR(MAX)
+    --@Naturalgas_Intensity_JSON NVARCHAR(MAX),
+    --@Water_Intensity_JSON NVARCHAR(MAX)
 
 AS
 BEGIN
     DECLARE @Suffix NVARCHAR(50);
     SET @Suffix = 
         CASE 
-            WHEN @Frequency = 'running' THEN 'running'
-            WHEN @Frequency = 'hourly' THEN 'hourly'
-            WHEN @Frequency = 'daily' THEN 'daily'
+            WHEN @Frequency = 'running' THEN '_running'
+            WHEN @Frequency = 'hourly' THEN '_hourly'
+            WHEN @Frequency = 'daily' THEN '_daily'
             ELSE 'default_suffix' -- Adjust as needed
         END;
     
@@ -40,7 +40,7 @@ BEGIN
         TagName NVARCHAR(100) '$.TagName',
         Value DECIMAL(18, 5) '$.Value' 
     );
-
+    /*
     INSERT INTO #Temp_Analog_History (EndDate, TagName, Value)
     SELECT 
         EndDate,
@@ -64,7 +64,7 @@ BEGIN
         TagName NVARCHAR(100) '$.TagName',
         Value DECIMAL(18, 5) '$.Value' -- Adjust the precision and scale as needed
     ); 
-
+    */
     UPDATE #Temp_Analog_History
     SET TagName = TagName + @Suffix;
 

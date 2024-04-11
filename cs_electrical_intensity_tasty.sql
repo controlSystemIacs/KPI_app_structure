@@ -5,6 +5,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
+
 ALTER PROCEDURE [dbo].[cs_electrical_intensity_tasty]
     @EndDate DATETIME,
     @Intensity_tagname NVARCHAR(50),
